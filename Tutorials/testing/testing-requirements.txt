@@ -1,0 +1,4 @@
+# Libraries required 
+nltk
+spacy
+huggingface_hub

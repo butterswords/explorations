@@ -1,0 +1,10 @@
+# The requirements file for all explorations and tutorials. 
+# If you want to build an environment only for a specific tutorial load the requirements.txt
+# found in that folder.
+pandas
+numpy
+ipykernel
+ollama
+
+# Requirements files for specific tutorials
+-r ./Tutorials/testing/testing-requirements.txt
