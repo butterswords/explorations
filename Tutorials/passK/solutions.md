@@ -4,8 +4,7 @@ Please do not look at this until you've successfully completed the tutorial.
 <details>
     <summary>Pass^K</summary>
 
-    ```Python
-
+    ```python
     def passHatK(frame,n:int,success= "pass"):
         """A function that takes a dataframe with the rows representing a single task/observation
         and columns representing each run or pass. The metric pass^k is calculated to determine
@@ -26,6 +25,6 @@ Please do not look at this until you've successfully completed the tutorial.
             total += comb(c,k)/comb(n,k)
             k += 1
     return total / len(frame)
-
     ```
+    
     </details>
