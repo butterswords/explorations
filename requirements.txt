@@ -5,6 +5,6 @@ pandas
 numpy
 ipykernel
 ollama
-
-# Requirements files for specific tutorials
--r ./Tutorials/testing/testing-requirements.txt
+nltk
+spacy
+huggingface_hub
