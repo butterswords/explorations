@@ -6,8 +6,9 @@ Below is a list of all the tutorials and their current status. If you have feedb
 
 | Tutorial  | Status |
 | ------------- | ------------- |
-| [Pass^K implementation](Tutorials\passK\pass^K.ipynb)  | ✅  |
-| [Beyond Accuracy](Tutorials\testing\beyond_accuracy.ipynb)  | 🚧  |
+| 001 [Using Regex to build test cases](Tutorials/001_regex_test_cases.ipynb) | ✅ | 
+| 002 [Beyond Accuracy](Tutorials\testing\beyond_accuracy.ipynb)  | ✅ |
+| 003 [Pass^K implementation](Tutorials\passK\pass^K.ipynb)  | ✅ |
 
 ## Calling models for the experiments and tutorials
 To minimize the amount of additonal effort, and make the work in this repo more accessible, I'm providing a short bit of guidance on how to quickly set up an environment to call LLMs. There are two ways I will share: 1) calling an API via [Hugging Face Hub](https://huggingface.co/docs/huggingface_hub/en/index) and 2) via local installation of [Ollama](https://ollama.com/). There are in depth tutorials available by navigating to the links so what I include below is a bare minimum to get anyone started.
