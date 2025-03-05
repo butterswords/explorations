@@ -4,6 +4,7 @@ import re
 import random
 from huggingface_hub import InferenceClient
 import os
+import base64
 
 
 # set up your huggingface client
@@ -78,7 +79,64 @@ def hf_generator(model, prompt, system=None):
     )
     return completion.choices[0].message.content
 
+def hf_img_gen(model,prompt,image_path,system=None):
+    with open(image_path, "rb") as f:
+        image = base64.b64encode(f.read()).decode("utf-8")
 
+    data = f"data:image/png;base64,{image}"
+
+    if system:    
+        messages = [
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": system
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": data
+                        }
+                    }
+                ]
+            }
+        ]
+    else:
+                messages = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": data
+                        }
+                    }
+                ]
+            }
+        ]
+
+    completion = client.chat.completions.create(
+        model=model, 
+        messages=messages, 
+        max_tokens=500
+    )
+    return completion.choices[0].message.content
 
 def replaceWords(text,lists):
     """This function takes a string (text) and then uses random sampling to replace each placeholder with a random value in the list from a dictionary containing the lists.
@@ -95,3 +153,30 @@ def fillPatterns(patterns,words):
     for x in patterns:
         filled.append(replaceWords(x,words))
     return filled
+
+def exec_smoke_test(folder, metadata, model, utterance, sysPrompt="tutor"):
+    if metadata.endswith(".csv"):
+        df_meta = pd.read_csv(metadata)
+    else:
+        print("Provide a .csv file for your metadata.")
+        return None
+    
+    #Insert your code here
+    if sysPrompt == "tutor":
+        system = """
+            You are a tutor helping the user learn math. Follow these instructions:
+            * Check that the image contains a math problem, if it doesn't ask the user to update the image
+            * Analyze the math in the image for errors and describe where they are
+            * Be succinct in your answers
+            * Do not provide the correct answer
+            * Guide the user towards correcting the errors found
+            * If they provide you a correct math problem, congratulate them by saying: "Well done, you should be proud."
+            """
+    else:
+        system = sysPrompt
+
+    df_test = df_meta
+    df_test["system"] = system
+    df_test["utterance"] = utterance
+    df_test["generation"] = df_test.file_name.apply(lambda x: hf_img_gen(model, utterance, f"{folder+x}", system))
+    return df_test
