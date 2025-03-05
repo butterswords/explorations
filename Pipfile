@@ -9,6 +9,7 @@ numpy = "*"
 ipykernel = "*"
 ollama = "*"
 huggingface-hub = "*"
+datasets = "*"
 
 [dev-packages]
 
